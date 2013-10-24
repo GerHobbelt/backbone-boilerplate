@@ -35,8 +35,8 @@ module.exports = function(grunt) {
           // Wrap everything in an IIFE.
           wrap: true,
 
-          // Do not preserve any license comments when working with source maps.
-          // These options are incompatible.
+          // Do not preserve any license comments when working with source
+          // maps.  These options are incompatible.
           preserveLicenseComments: false
         }
       }
@@ -129,6 +129,7 @@ module.exports = function(grunt) {
         singleRun: true,
         captureTimeout: 7000,
         autoWatch: true,
+        logLevel: "ERROR",
 
         reporters: ["progress", "coverage"],
         browsers: ["PhantomJS"],
@@ -160,8 +161,11 @@ module.exports = function(grunt) {
           "test/runner.js",
 
           { pattern: "app/**/*.*", included: false },
-          // This directory must also be changed if you switch frameworks.
-          { pattern: "test/mocha/**/*.spec.js", included: false },
+          // Derives test framework from Karma configuration.
+          {
+            pattern: "test/<%= karma.options.frameworks[0] %>/**/*.spec.js",
+            included: false
+          },
           { pattern: "vendor/**/*.js", included: false }
         ]
       },
@@ -180,6 +184,12 @@ module.exports = function(grunt) {
           singleRun: true
         }
       }
+    },
+
+    coveralls: {
+      options: {
+        coverage_dir: "test/coverage/PhantomJS 1.9.2 (Linux)/"
+      }
     }
   });
 
@@ -192,6 +202,7 @@ module.exports = function(grunt) {
 
   // Third-party tasks.
   grunt.loadNpmTasks("grunt-karma");
+  grunt.loadNpmTasks("grunt-karma-coveralls");
   grunt.loadNpmTasks("grunt-processhtml");
 
   // Grunt BBB tasks.

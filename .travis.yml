@@ -5,3 +5,7 @@ node_js:
 branches:
   only:
     - master
+
+before_install:
+  - npm install -gq grunt-cli bower coveralls
+  - bower install
